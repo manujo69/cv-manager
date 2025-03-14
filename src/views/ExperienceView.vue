@@ -1,11 +1,11 @@
 <template>
   <div class="experience-view">
     <h2>Experiencia Laboral</h2>
-    <experience-list v-if="!showEditForm" @element-id-edit="elementID = $event" />
+    <experience-list v-if="elementID === DONT_SHOW" @element-id-edit="elementID = $event" />
     <experience-form
       v-if="elementID !== DONT_SHOW"
       :element-id="elementID"
-      @close="showEditForm = false"
+      @close="showEditForm(DONT_SHOW)"
     />
   </div>
 </template>

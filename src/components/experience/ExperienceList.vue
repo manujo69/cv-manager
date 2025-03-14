@@ -10,16 +10,16 @@
         <div><b>Posición: </b>{{ item.position }}</div>
         <div><b>Descripción: </b>{{ item.description }}</div>
         <div class="button-container">
-          <button @click="$emit('toggleEdit', index)">Editar</button>
+          <button @click="$emit('elementIdEdit', index + 1)">Editar</button>
         </div>
       </li>
     </ul>
   </div>
-  <button @click="$emit('toggleEdit', NEW_ELEMENT)">Añadir experiencia</button>
+  <button @click="$emit('elementIdEdit', NEW_ELEMENT)">Añadir experiencia</button>
 </template>
 
 <script lang="ts">
-import { Experience } from '@/models'
+import { Experience, NEW_ELEMENT } from '@/models'
 import { computed, defineComponent, onMounted, reactive, watch } from 'vue'
 import { mapActions, mapState, useStore } from 'vuex'
 
@@ -31,7 +31,7 @@ export default defineComponent({
   computed: {
     ...mapState('experience', ['experienceInfo']),
   },
-  emits: ['toggleEdit'],
+  emits: ['elementIdEdit'],
   setup() {
     const store = useStore()
 
@@ -49,8 +49,6 @@ export default defineComponent({
         description: '',
       },
     ])
-
-    const NEW_ELEMENT = -1
 
     // Sincronizar editableInfo con el store
     watch(

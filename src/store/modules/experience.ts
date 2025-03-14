@@ -42,7 +42,6 @@ export default {
       experience: Experience,
     ) {
       let newExperience = experience
-      debugger
 
       // If it's a new experience, generate an ID
       if (!experience.id) {

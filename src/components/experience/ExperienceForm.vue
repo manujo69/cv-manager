@@ -31,6 +31,7 @@
       </div>
 
       <button type="submit">Guardar</button>
+      <button type="button" @click="$emit('close')">Cancelar</button>
     </form>
   </div>
 </template>
@@ -56,7 +57,7 @@ export default defineComponent({
       default: -1,
     },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const store = useStore()
 
     const experienceInfo = computed(() => store.state.experience.experiences)
@@ -118,7 +119,7 @@ export default defineComponent({
     const saveInfo = () => {
       console.log(editableInfo)
       store.dispatch('experience/saveExperience', { ...editableInfo })
-      // emit('close')
+      emit('close')
     }
 
     return {
