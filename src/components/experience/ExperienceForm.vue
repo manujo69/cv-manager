@@ -1,5 +1,5 @@
 <template>
-  <div class="experience-form-component">
+  <div class="edit-form-component">
     <form @submit.prevent="saveInfo">
       <div>
         <label for="title">Nombre:</label>
@@ -30,8 +30,8 @@
         <input id="current" v-model="editableInfo.current" type="checkbox" />
       </div>
 
-      <button type="submit">Guardar</button>
-      <button type="button" @click="$emit('close')">Cancelar</button>
+      <PrimeButton type="submit">Guardar</PrimeButton>
+      <PrimeButton type="button" @click="$emit('close')">Cancelar</PrimeButton>
     </form>
   </div>
 </template>
@@ -40,7 +40,9 @@
 import { computed, defineComponent, onMounted, reactive, watch } from 'vue'
 import { mapActions, mapState, useStore } from 'vuex'
 
-import { Experience } from '../../models'
+import { Experience, NEW_ELEMENT } from '@/models'
+
+import PrimeButton from 'primevue/button'
 
 export default defineComponent({
   name: 'ExperienceForm',
@@ -50,11 +52,12 @@ export default defineComponent({
   computed: {
     ...mapState('experience', ['experienceInfo']),
   },
+  components: { PrimeButton },
   props: {
     elementId: {
       type: Number,
       required: true,
-      default: -1,
+      default: NEW_ELEMENT,
     },
   },
   setup(props, { emit }) {
@@ -63,7 +66,7 @@ export default defineComponent({
     const experienceInfo = computed(() => store.state.experience.experiences)
 
     const editableInfo = reactive<Experience>({
-      id: props.elementId === -1 ? 0 : props.elementId,
+      id: props.elementId === NEW_ELEMENT ? 0 : props.elementId,
       title: '',
       company: '',
       startDate: '',
@@ -93,7 +96,7 @@ export default defineComponent({
 
     // Función para inicializar el formulario con los datos correctos
     const initializeForm = () => {
-      if (props.elementId === -1) {
+      if (props.elementId === NEW_ELEMENT) {
         // Crear nueva experiencia (resetear valores)
         Object.assign(editableInfo, {
           id: 0,
@@ -117,7 +120,6 @@ export default defineComponent({
     }
 
     const saveInfo = () => {
-      console.log(editableInfo)
       store.dispatch('experience/saveExperience', { ...editableInfo })
       emit('close')
     }
@@ -131,38 +133,6 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
-.experience-form-component {
-  /* Styles specific to this component */
-  border: 1px solid #ccc;
-  padding: 10px;
-}
-
-form div {
-  margin-bottom: 10px;
-}
-
-label {
-  display: block;
-  font-weight: bold;
-}
-
-input,
-textarea {
-  width: 100%;
-  padding: 5px;
-  margin-top: 5px;
-}
-
-button {
-  background: #007bff;
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #0056b3;
-}
+<style lang="scss" scoped>
+@use '@/assets/scss/common.scss' as *;
 </style>

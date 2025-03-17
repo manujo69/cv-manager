@@ -6,11 +6,11 @@
     <p><b>Teléfono: </b>{{ personalInfo?.phone }}</p>
     <p>
       <b>Dirección: </b>{{ personalInfo?.address }} {{ personalInfo?.postalCode }}
-      {{ personalInfo?.city }} {{ personalInfo?.country }}
+      {{ personalInfo?.city }} {{ personalInfo?.country?.name }}
     </p>
     <p><b>Acerca de mí: </b>{{ personalInfo?.about }}</p>
 
-    <button @click="$emit('toggleEdit')">Editar</button>
+    <PrimeButton @click="$emit('toggleEdit')">Editar</PrimeButton>
   </div>
 </template>
 
@@ -18,6 +18,8 @@
 import { PersonalInfo } from '@/models'
 import { computed, defineComponent, onMounted, reactive, watch } from 'vue'
 import { mapActions, mapState, useStore } from 'vuex'
+
+import PrimeButton from 'primevue/button'
 
 export default defineComponent({
   name: 'PersonalInfoList',
@@ -27,6 +29,7 @@ export default defineComponent({
   computed: {
     ...mapState('personal', ['personalInfo']),
   },
+  components: { PrimeButton },
   emits: ['toggleEdit'],
   setup() {
     // Optional: Use the Composition API

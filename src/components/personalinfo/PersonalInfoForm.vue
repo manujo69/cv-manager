@@ -1,66 +1,105 @@
 <template>
-  <div class="personal-info-form-component">
-    <form @submit.prevent="saveInfo">
-      <div>
-        <label for="name">Nombre:</label>
-        <input id="name" v-model="editableInfo.firstName" type="text" required />
-      </div>
+  <Card>
+    <template #content>
+      <div class="personal-info-form-component">
+        <form @submit.prevent="saveInfo">
+          <div class="flex flex-col gap-2">
+            <label for="firstName">Nombre </label>
+            <InputText
+              id="firstName"
+              v-model="editableInfo.firstName"
+              required
+              placeholder="Nombre"
+            ></InputText>
+          </div>
 
-      <div>
-        <label for="surname">Apellidos:</label>
-        <input id="surname" v-model="editableInfo.lastName" type="text" required />
-      </div>
+          <div class="flex flex-col gap-2">
+            <label for="lastName">Apellidos:</label>
+            <InputText
+              id="lastName"
+              v-model="editableInfo.lastName"
+              required
+              placeholder="Apellidos"
+            ></InputText>
+          </div>
 
-      <div>
-        <label for="email">Correo Electrónico:</label>
-        <input id="email" v-model="editableInfo.email" type="email" required />
-      </div>
+          <div class="flex flex-col gap-2">
+            <label for="email">Correo Electrónico:</label>
+            <InputText id="email" v-model="editableInfo.email" type="email" required></InputText>
+          </div>
 
-      <div>
-        <label for="phone">Teléfono:</label>
-        <input id="phone" v-model="editableInfo.phone" required />
-      </div>
+          <div class="flex flex-col gap-2">
+            <label for="phone">Teléfono:</label>
+            <InputText id="phone" v-model="editableInfo.phone" type="tel" required></InputText>
+          </div>
 
-      <div>
-        <label for="country">País:</label>
-        <input id="country" v-model="editableInfo.country" required />
-      </div>
+          <div class="flex flex-col gap-2">
+            <label for="country">País:</label>
 
-      <div>
-        <label for="city">País:</label>
-        <input id="city" v-model="editableInfo.city" required />
-      </div>
+            <PrimeSelect
+              id="country"
+              v-model="editableInfo.country"
+              :options="countriesList"
+              :pt="{
+                root: { style: { fontFamily: 'Arial, sans-serif' } },
+                label: { style: { fontFamily: 'Arial, sans-serif' } },
+                item: { style: { fontFamily: 'Arial, sans-serif' } },
+                itemGroup: { style: { fontFamily: 'Arial, sans-serif' } },
+                panel: { style: { fontFamily: 'Arial, sans-serif' } },
+              }"
+              optionLabel="name"
+              required
+              placeholder="Selecciona un país"
+              class="prime-select w-full md:w-56"
+            ></PrimeSelect>
+          </div>
 
-      <div>
-        <label for="address">Dirección:</label>
-        <input id="address" v-model="editableInfo.address" />
-      </div>
+          <div class="flex flex-col gap-2">
+            <label for="city">Ciudad:</label>
+            <InputText id="city" v-model="editableInfo.city" required></InputText>
+          </div>
 
-      <div>
-        <label for="postalCode">Código postal:</label>
-        <input id="postalCode" v-model="editableInfo.postalCode" />
-      </div>
+          <div class="flex flex-col gap-2">
+            <label for="address">Dirección:</label>
+            <InputText id="address" v-model="editableInfo.address" required></InputText>
+          </div>
 
-      <div>
-        <label for="about">Sobre mí:</label>
-        <textarea id="about" v-model="editableInfo.about"></textarea>
-      </div>
+          <div class="flex flex-col gap-2">
+            <label for="postalCode">Código Postal:</label>
+            <InputText id="postalCode" v-model="editableInfo.postalCode" required></InputText>
+          </div>
 
-      <div>
-        <label for="profilePicture">Foto de perfil:</label>
-        <input id="postalCode" v-model="editableInfo.profilePicture" />
-      </div>
+          <div>
+            <label for="about">Sobre mí:</label>
+            <PrimeTextarea id="about" v-model="editableInfo.about"></PrimeTextarea>
+          </div>
 
-      <button type="submit">Guardar</button>
-    </form>
-  </div>
+          <div>
+            <label for="profilePicture">Foto de perfil:</label>
+            <input id="profilePicture" v-model="editableInfo.profilePicture" />
+          </div>
+
+          <PrimeButton type="submit">Guardar</PrimeButton>
+        </form>
+      </div>
+    </template>
+  </Card>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, watch, computed, onMounted } from 'vue'
+import { defineComponent, reactive, watch, computed, onMounted, ref } from 'vue'
 import { useStore, mapState, mapActions } from 'vuex'
 
 import type { PersonalInfo } from '../../models'
+
+import PrimeButton from 'primevue/button'
+import Card from 'primevue/card'
+
+import InputText from 'primevue/inputtext'
+import PrimeTextarea from 'primevue/textarea'
+
+import PrimeSelect from 'primevue/select'
+import { countries } from '@/models/countries'
 
 export default defineComponent({
   name: 'PersonalInfoForm', // Optional: Give your component a name
@@ -71,6 +110,7 @@ export default defineComponent({
   computed: {
     ...mapState('personal', ['personalInfo']),
   },
+  components: { PrimeButton, Card, InputText, PrimeTextarea, PrimeSelect },
   setup(props, { emit }) {
     const store = useStore()
 
@@ -88,6 +128,8 @@ export default defineComponent({
       about: '',
       profilePicture: null,
     })
+
+    const countriesList = ref(countries)
 
     // Sincronizar editableInfo con el store
     watch(
@@ -114,6 +156,7 @@ export default defineComponent({
     return {
       personalInfo,
       editableInfo,
+      countriesList,
       saveInfo,
     }
   },
@@ -121,6 +164,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@use '@/assets/scss/common.scss' as *;
+
 .personal-info-form-component {
   padding: 10px;
   margin: auto;
@@ -152,5 +197,14 @@ button {
 
 button:hover {
   background: #0056b3;
+}
+
+.prime-select {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.prime-textarea {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1rem; // You can adjust the font size here if needed
 }
 </style>

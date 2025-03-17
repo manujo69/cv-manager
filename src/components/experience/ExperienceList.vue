@@ -10,18 +10,20 @@
         <div><b>Posición: </b>{{ item.position }}</div>
         <div><b>Descripción: </b>{{ item.description }}</div>
         <div class="button-container">
-          <button @click="$emit('elementIdEdit', index + 1)">Editar</button>
+          <PrimeButton @click="$emit('elementIdEdit', index + 1)">Editar</PrimeButton>
         </div>
       </li>
     </ul>
   </div>
-  <button @click="$emit('elementIdEdit', NEW_ELEMENT)">Añadir experiencia</button>
+  <PrimeButton @click="$emit('elementIdEdit', NEW_ELEMENT)">Añadir experiencia</PrimeButton>
 </template>
 
 <script lang="ts">
 import { Experience, NEW_ELEMENT } from '@/models'
 import { computed, defineComponent, onMounted, reactive, watch } from 'vue'
 import { mapActions, mapState, useStore } from 'vuex'
+
+import PrimeButton from 'primevue/button'
 
 export default defineComponent({
   name: 'ExperienceList', // Optional: Give your component a name
@@ -31,6 +33,7 @@ export default defineComponent({
   computed: {
     ...mapState('experience', ['experienceInfo']),
   },
+  components: { PrimeButton },
   emits: ['elementIdEdit'],
   setup() {
     const store = useStore()
@@ -76,24 +79,6 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
-.my-component {
-  /* Styles specific to this component */
-  border: 1px solid #ccc;
-  padding: 10px;
-}
-button {
-  background: #007bff;
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-}
-li {
-  margin-bottom: 20px;
-  list-style-type: none;
-}
-.button-container {
-  margin-top: 10px;
-}
+<style lang="scss" scoped>
+@use '@/assets/scss/common.scss' as *;
 </style>

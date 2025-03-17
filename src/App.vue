@@ -36,3 +36,12 @@ body {
   padding: 0;
 }
 </style>
+
+<style>
+.p-select-overlay,
+.p-select-list,
+.p-select-option,
+.p-select-option-label {
+  font-family: 'Open Sans', sans-serif !important;
+}
+</style>
