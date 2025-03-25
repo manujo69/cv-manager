@@ -1,33 +1,39 @@
 <template>
   <div class="edit-form-component">
     <form @submit.prevent="saveInfo">
-      <div>
-        <label for="title">Nombre:</label>
-        <input id="title" v-model="editableInfo.title" type="text" required />
+      <div class="flex flex-col gap-2">
+        <label for="title">Nombre</label>
+        <InputText id="title" v-model="editableInfo.title" type="text" required />
       </div>
-      <div>
-        <label for="company">Empresa:</label>
-        <input id="company" v-model="editableInfo.company" type="text" required />
+      <div class="flex flex-col gap-2">
+        <label for="company">Empresa</label>
+        <InputText id="company" v-model="editableInfo.company" type="text" required />
       </div>
-      <div>
-        <label for="startDate">Fecha de inicio:</label>
-        <input id="startDate" v-model="editableInfo.startDate" type="date" required />
+      <div class="flex flex-col gap-2">
+        <label for="startDate">Fecha de inicio</label>
+        <DatePicker
+          id="startDate"
+          v-model="editableInfo.startDate"
+          dateFormat="dd/mm/yy"
+          type="date"
+          required
+        />
       </div>
-      <div>
-        <label for="endDate">Fecha de finalización:</label>
-        <input id="endDate" v-model="editableInfo.endDate" type="date" />
+      <div class="flex flex-col gap-2">
+        <label for="endDate">Fecha de finalización</label>
+        <DatePicker id="endDate" v-model="editableInfo.endDate" dateFormat="dd/mm/yy" type="date" />
       </div>
-      <div>
-        <label for="position">Cargo:</label>
-        <input id="position" v-model="editableInfo.position" type="text" required />
+      <div class="flex flex-col gap-2">
+        <label for="position">Cargo</label>
+        <InputText id="position" v-model="editableInfo.position" type="text" required />
       </div>
-      <div>
-        <label for="description">Descripción:</label>
-        <textarea id="description" v-model="editableInfo.description" required></textarea>
+      <div class="flex flex-col gap-2">
+        <label for="description">Descripción</label>
+        <PrimeTextarea id="description" v-model="editableInfo.description" required />
       </div>
-      <div>
-        <label for="current">Actual:</label>
-        <input id="current" v-model="editableInfo.current" type="checkbox" />
+      <div class="flex flex-col gap-2">
+        <label for="current">Actual</label>
+        <PrimeCheckBox id="current" v-model="editableInfo.current" binary />
       </div>
 
       <PrimeButton type="submit">Guardar</PrimeButton>
@@ -43,6 +49,10 @@ import { mapActions, mapState, useStore } from 'vuex'
 import { Experience, NEW_ELEMENT } from '@/models'
 
 import PrimeButton from 'primevue/button'
+import InputText from 'primevue/inputtext'
+import PrimeTextarea from 'primevue/textarea'
+import DatePicker from 'primevue/datepicker'
+import PrimeCheckBox from 'primevue/checkbox'
 
 export default defineComponent({
   name: 'ExperienceForm',
@@ -52,7 +62,7 @@ export default defineComponent({
   computed: {
     ...mapState('experience', ['experienceInfo']),
   },
-  components: { PrimeButton },
+  components: { PrimeButton, InputText, PrimeTextarea, DatePicker, PrimeCheckBox },
   props: {
     elementId: {
       type: Number,
@@ -69,9 +79,9 @@ export default defineComponent({
       id: props.elementId === NEW_ELEMENT ? 0 : props.elementId,
       title: '',
       company: '',
-      startDate: '',
+      startDate: null,
       position: '',
-      endDate: '',
+      endDate: null,
       current: false,
       description: '',
     })
@@ -102,7 +112,7 @@ export default defineComponent({
           id: 0,
           title: '',
           company: '',
-          startDate: '',
+          startDate: null,
           position: '',
           endDate: '',
           current: false,

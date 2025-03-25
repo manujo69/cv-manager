@@ -35,6 +35,8 @@ export default {
       const savedJobs = localStorage.getItem('jobs')
       if (savedJobs) {
         commit('setJobs', JSON.parse(savedJobs))
+      } else {
+        commit('setJobs', [])
       }
     },
     saveJob({ commit, state }: { commit: Commit; state: JobState }, job: Job) {

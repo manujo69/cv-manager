@@ -49,7 +49,9 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@use '@/assets/scss/common.scss' as *;
+
 .dashboard-layout {
   display: flex;
   min-height: 100vh;
@@ -71,8 +73,8 @@ export default defineComponent({
 
 .main-content {
   flex: 1;
-  padding: 20px;
-  background: #f4f7fa;
+  padding: 20px 50px;
+  background: $base-background-color;
 }
 
 .dashboard-header {

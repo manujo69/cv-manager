@@ -18,13 +18,41 @@ export interface PersonalInfo {
   profilePictureUrl?: string
 }
 
+export interface PersonalInfoBoolean {
+  firstName: boolean
+  lastName: boolean
+  email: boolean
+  phone: boolean
+  address: boolean
+  country: boolean
+  city: boolean
+  postalCode: boolean
+  about: boolean
+  profilePicture: boolean
+  profilePictureUrl: boolean
+}
+
+export const DEFAULT_PERSONAL_INFO_BOOLEAN: PersonalInfoBoolean = {
+  firstName: true,
+  lastName: true,
+  email: true,
+  phone: true,
+  address: true,
+  country: true,
+  city: true,
+  postalCode: true,
+  about: true,
+  profilePicture: true,
+  profilePictureUrl: true,
+}
+
 export interface Experience {
   id: number
   title: string
   company: string
   position: string
-  startDate: string
-  endDate: string | null
+  startDate: Date | null
+  endDate: Date | null
   current: boolean
   description: string
 }
@@ -40,15 +68,37 @@ export interface Education {
   description: string
 }
 
+export type JobStatusType =
+  | 'Solicitado'
+  | 'Entrevista'
+  | 'Oferta'
+  | 'Rechazado'
+  | 'Descartado'
+  | 'Finalizado'
+
 export interface Job {
   id: number
   company: string
   position: string
   location: string
   url: string
-  dateApplied: string
-  status: 'applied' | 'interview' | 'offer' | 'rejected' | 'withdrawn'
+  dateApplied: Date | null
+  status: JobStatusType
   notes: string
+}
+
+export interface CVdata {
+  id: number
+  name: string
+  personalInfo: PersonalInfoBoolean
+  experienceIDS: { id: number; selected: boolean }[]
+  educationIDS: { id: number; selected: boolean }[]
+  skills: { id: number; selected: boolean }[]
+  languages: { id: number; selected: boolean }[]
+  PDFsource: string
+  PDFtarget?: string
+  jobID: number
+  IAprompt: string
 }
 
 export const NEW_ELEMENT = -1

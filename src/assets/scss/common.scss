@@ -1,7 +1,7 @@
+$base-background-color: cadetblue;
+
 .my-component {
   /* Styles specific to this component */
-  border: 1px solid #ccc;
-  padding: 10px;
 
   button {
     background: #007bff;
@@ -66,5 +66,9 @@
   font-family: 'Open Sans', sans-serif;
 }
 .p-dropdown-item {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.p-datepicker-title {
   font-family: 'Open Sans', sans-serif;
 }

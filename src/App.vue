@@ -44,4 +44,25 @@ body {
 .p-select-option-label {
   font-family: 'Open Sans', sans-serif !important;
 }
+
+.p-card.p-component {
+  background: #eee;
+}
+
+.p-datepicker-day,
+.p-datepicker-weekday,
+.p-datepicker-month,
+.p-datepicker-year,
+.p-datepicker-decade,
+.p-datepicker-today,
+.p-datepicker-select-month,
+.p-datepicker-select-year {
+  font-family: 'Open Sans', sans-serif;
+}
+
+h2 {
+  color: white;
+  font-weight: 800;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 60%);
+}
 </style>
