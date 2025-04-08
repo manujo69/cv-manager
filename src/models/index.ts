@@ -16,6 +16,7 @@ export interface PersonalInfo {
   about: string
   profilePicture: File | null
   profilePictureUrl?: string
+  [key: string]: string | File | null | undefined
 }
 
 export interface PersonalInfoBoolean {
@@ -30,6 +31,7 @@ export interface PersonalInfoBoolean {
   about: boolean
   profilePicture: boolean
   profilePictureUrl: boolean
+  [key: string]: boolean
 }
 
 export const DEFAULT_PERSONAL_INFO_BOOLEAN: PersonalInfoBoolean = {

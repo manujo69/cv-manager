@@ -18,15 +18,32 @@
                 <h4>Datos Personales</h4>
 
                 <div class="h4-block">
-                  <u>{{ item.personalInfo['firstName'] }} {{ item.personalInfo['lastName'] }}</u>
+                  <u v-if="item.personalInfo['firstName'] && item.personalInfo['lastName']">
+                    {{ getPersonalData('firstName') }} {{ getPersonalData('lastName') }}
+                  </u>
                   <div>
-                    {{ item.personalInfo['address'] }} {{ item.personalInfo['postalCode'] }},
-                    {{ item.personalInfo['city'] }} -
-                    {{ item.personalInfo.country }}
+                    <template v-if="item.personalInfo['address']">
+                      {{ getPersonalData('address') }}&nbsp;
+                    </template>
+                    <template v-if="item.personalInfo['postalCode']"
+                      >{{ getPersonalData('postalCode') }} -
+                    </template>
+                    <template v-if="item.personalInfo['city']"
+                      >{{ getPersonalData('city') }}&nbsp;
+                    </template>
+                    <template v-if="item.personalInfo['country']">
+                      ({{ getPersonalData('country') }})
+                    </template>
+                    <template v-if="item.personalInfo['email']"
+                      ><br />{{ getPersonalData('email') }}</template
+                    >
+                    <template v-if="item.personalInfo['phone']"
+                      ><br />{{ getPersonalData('phone') }}</template
+                    >
+                    <template v-if="item.personalInfo['about']"
+                      ><br />{{ getPersonalData('about') }}</template
+                    >
                   </div>
-                  <div>{{ item.personalInfo['email'] }}</div>
-                  <div>{{ item.personalInfo['phone'] }}</div>
-                  <div>{{ item.personalInfo['about'] }}</div>
                 </div>
 
                 <div v-if="item.experienceIDS?.length > 0">
@@ -86,6 +103,10 @@ export default defineComponent({
       const job = this.jobs.find((j: Job) => j.id === jobId)
       return job ? job.company : 'No asociado'
     },
+    getPersonalData(key: string) {
+      const personalData = this.personalInfo
+      return personalData ? personalData[key] : 'No disponible'
+    },
     deleteResume(id: number) {
       this.removeCv(id)
     },
@@ -93,7 +114,7 @@ export default defineComponent({
   computed: {
     ...mapState('curriculum', ['cvs']),
     ...mapState('job', ['jobs']),
-    ...mapActions('personal', ['loadPersonalInfo']),
+    ...mapState('personal', ['personalInfo']),
     sortedResumeInfo(): CVdata[] {
       const resumes = [...this.cvs]
       return resumes.sort((a, b) => b.id - a.id) // Sort by ID in descending order (newest first)
@@ -136,7 +157,9 @@ export default defineComponent({
     onMounted(() => {
       store.dispatch('curriculum/loadCvs').then(() => {
         store.dispatch('job/loadJobs').then(() => {
-          store.dispatch('personal/loadPersonalInfo')
+          store.dispatch('personal/loadPersonalInfo').then(() => {
+            console.log('Data loaded')
+          })
         })
       })
     })
